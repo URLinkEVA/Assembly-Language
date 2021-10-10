@@ -1,0 +1,47 @@
+DATA SEGMENT
+    ARRAY DB  45,98,63,78,88,101,89,65,100
+    LEN  EQU $-ARRAY
+    MIN  DB  ?
+    MAX  DB  ?
+DATA ENDS
+
+STACK SEGMENT
+STACK ENDS
+
+CODE SEGMENT
+    ASSUME CS:CODE,DS:DATA,SS:STACK
+START:
+    MOV AX,DATA
+    MOV DS,AX
+
+    ;初始化最大值最小值
+    MOV AL,ARRAY
+    MOV MAX,AL
+    MOV MIN,AL
+
+    MOV BX,1
+    MOV CX,LEN-1
+LOOP1:
+    INC BX
+    MOV AL,DS:[BX];
+    call CMPMAX
+    call CMPMIN
+    LOOP LOOP1
+    JMP EXIT    ;程序结束
+CMPMAX:
+    CMP MAX,AL
+    JAE NEXT1
+    MOV MAX,AL
+NEXT1: 
+    ret
+CMPMIN:
+    CMP MIN,AL
+    JBE NEXT2
+    MOV MIN,AL
+NEXT2:    
+    ret
+EXIT:    
+    MOV AX,4c00H
+    INT 21H
+CODE ENDS
+END START
