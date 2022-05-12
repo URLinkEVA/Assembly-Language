@@ -9,6 +9,21 @@
 
 (3).用置位/复位控制字的方法,将PC2置位（=1）、PC5复位（=0）。
 
+```
+（1） 7CFFH     7FFFH
+
+（2） MOV A,#92H   
+          MOV  DPTR, #7FFFH
+          MOVX @DPTR, A
+
+（3）MOV DPTR, #7FFFH
+    ​     MOV A,#80H
+    ​    ​ MOV @DPTR, A
+         MOV A, #05H  
+         MOV @DPTR, A
+         MOV A, #0AH  
+         MOVX @DETR,A
+```
 
 
 # 2
@@ -22,4 +37,24 @@
 
 (说明：程序中先要对8255初始化，“F”字亮灭的延迟子程序可直接用ACALL DEY调用)。
 
-
+```
+	ORG 0000H
+	MOV A, #82H
+	MOV DPTR, #0EFFFH
+	MOVX @DPTR, A
+	MOV DPTR, #0EFF7H
+	MOV A, #71H
+	MOVX @DPTR, A
+	
+	MOV A, #80H
+	MOV DPTR, #0EFFFH
+	MOVX @DPTR, A
+	MOV A, #01
+	
+LOOP:
+	XRL A, #01H
+	MOVX @DPTR, A
+	ACALL DEY
+	SJMP LOOP
+	END
+```
