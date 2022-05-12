@@ -37,6 +37,8 @@
 
 (说明：程序中先要对8255初始化，“F”字亮灭的延迟子程序可直接用ACALL DEY调用)。
 
+![](https://github.com/URLinkEVA/Assembly-Language/blob/main/mcucourse/tests/1.png)
+
 ```
 	ORG 0000H
 	MOV A, #82H
